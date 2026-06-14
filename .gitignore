@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+*.log
+# Supabase CLI 로컬 산출물
+supabase/.branches/
+supabase/.temp/
+.env
+
+# 사이트 구동에 불필요한 문서/DB 스크립트 (배포 제외)
+SETUP.md
+구현계획.md
+supabase-schema.sql

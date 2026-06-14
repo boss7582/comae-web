@@ -1,0 +1,96 @@
+// ──────────────────────────────────────────────────────────────
+// COMAE 공통 데이터 계층 (Supabase)
+// 고객용/관리자용 페이지가 함께 쓰는 DB · Storage · Auth · Edge Function 래퍼.
+// 두 HTML 은 이 파일의 함수만 호출하므로, 백엔드가 바뀌어도 HTML 은 그대로입니다.
+// ──────────────────────────────────────────────────────────────
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./supabase-config.js";
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── 조회 ────────────────────────────────────────────────────
+export async function listOnce(table) {
+  const { data, error } = await sb.from(table).select("*").order("created_at", { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+// 실시간 구독: 최초 1회 로드 후, 변경이 생길 때마다 cb(items) 재호출.
+// 구독 해제 함수를 반환. (Realtime 미설정이어도 최초 로드는 동작)
+export function listen(table, cb) {
+  const fetchAll = async () => {
+    const { data, error } = await sb.from(table).select("*").order("created_at", { ascending: true });
+    if (error) { console.error(`[listen:${table}]`, error); return; }
+    cb(data || []);
+  };
+  fetchAll();
+  const channel = sb
+    .channel(`rt-${table}`)
+    .on("postgres_changes", { event: "*", schema: "public", table }, fetchAll)
+    .subscribe();
+  return () => sb.removeChannel(channel);
+}
+
+// ── 쓰기 ────────────────────────────────────────────────────
+export async function addItem(table, obj) {
+  const { data, error } = await sb.from(table).insert(obj).select("id").single();
+  if (error) throw error;
+  return data.id;
+}
+export async function updateItem(table, id, patch) {
+  const { error } = await sb.from(table).update(patch).eq("id", id);
+  if (error) throw error;
+}
+export async function removeItem(table, id) {
+  const { error } = await sb.from(table).delete().eq("id", id);
+  if (error) throw error;
+}
+
+// ── 사진 업로드 (Storage: photos 버킷) ──────────────────────
+export async function uploadPhotos(folder, fileInput) {
+  const files = [...(fileInput?.files || [])].slice(0, 8);
+  const urls = [];
+  for (const f of files) {
+    const path = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2, 7)}_${f.name}`;
+    const { error } = await sb.storage.from("photos").upload(path, f, { contentType: f.type });
+    if (error) throw error;
+    urls.push(sb.storage.from("photos").getPublicUrl(path).data.publicUrl);
+  }
+  return urls;
+}
+
+// ── 입찰 제안 (Postgres 함수 RPC 경유 — 고유번호 서버검증) ──────
+export async function submitProposal(payload) {
+  const { error } = await sb.rpc("submit_proposal", {
+    p_bid_id: payload.bidId || null,
+    p_code: payload.code || "",
+    p_company: payload.company || "",
+    p_role: payload.role || "",
+    p_category: payload.category || "",
+    p_price: payload.price || "",
+    p_schedule: payload.schedule || "",
+    p_as: payload.as || "",
+    p_memo: payload.memo || "",
+  });
+  if (error) throw new Error(error.message || "입찰 제출에 실패했습니다.");
+  return { ok: true };
+}
+
+// ── 관리자 인증 ──────────────────────────────────────────────
+export async function login(email, password) {
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+}
+export async function logout() {
+  await sb.auth.signOut();
+}
+export function onAuth(cb) {
+  sb.auth.getSession().then(({ data }) => cb(data.session ? data.session.user : null));
+  const { data: sub } = sb.auth.onAuthStateChange((_e, session) => cb(session ? session.user : null));
+  return () => sub.subscription.unsubscribe();
+}
+
+// ── 폼 → 객체 ───────────────────────────────────────────────
+export function formObj(form) {
+  return Object.fromEntries(new FormData(form).entries());
+}
