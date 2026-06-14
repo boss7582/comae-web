@@ -3,7 +3,7 @@
 <style>
 :root{--navy:#071a32;--blue:#123a66;--gold:#d8aa4c;--bg:#f5f7fb;--line:#e5ebf3;--text:#14243d;--muted:#64748b}*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;display:flex}aside{width:285px;background:var(--navy);color:white;padding:22px;position:fixed;height:100vh;overflow:auto}.logo{font-size:22px;font-weight:900}.logo span{color:var(--gold)}aside a{display:block;padding:10px 12px;border-radius:10px;color:#dce6f5;margin-bottom:4px;text-decoration:none}aside a:hover{background:#123a66}main{margin-left:285px;width:calc(100% - 285px);padding:24px}.sub,.desc{color:var(--muted);margin-bottom:16px}section,.panel,form{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(16,35,63,.06);margin-bottom:22px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.admincard{background:white;border:1px solid var(--line);border-radius:16px;padding:16px}.admincard strong{display:block;font-size:24px;color:var(--blue)}table{width:100%;border-collapse:collapse;font-size:14px;background:white}th,td{padding:11px;border-bottom:1px solid #edf1f6;text-align:left;vertical-align:top}th{background:#f8fafc;color:#40516a}.status{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;background:#eaf1fb;color:#123a66}.ok{background:#ecfdf3;color:#067647}.warn{background:#fff6df;color:#9a6700}.bad{background:#fff1f1;color:#b42318}button{border:0;background:var(--navy);color:white;border-radius:10px;padding:9px 12px;font-weight:900;cursor:pointer;margin:2px}.small{font-size:12px;padding:7px 9px}.danger{background:#8a1f1f}.gray{background:#526173}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}label{display:block;font-weight:900;font-size:13px;margin-bottom:5px}input,select,textarea{width:100%;padding:12px;border:1px solid #dbe3ef;border-radius:12px;background:#fbfcfe;font-family:inherit;font-size:14px}textarea{min-height:96px}.full{grid-column:1/-1}.alert{padding:12px 14px;border-radius:12px;margin:12px 0;background:#ecfdf3;color:#067647;font-weight:800;display:none}@media(max-width:1000px){body{display:block}aside{position:static;width:100%;height:auto}main{margin-left:0;width:100%}.cards,.grid{grid-template-columns:1fr}}
 </style></head><body>
-<aside><div class="logo">COMAE <span>ADMIN</span></div><br><a href="#dashboard">대시보드</a><a href="#reservations">개인상담 예약</a><a href="#partners">협력업체 승인/고유번호</a><a href="#bidCreate">입찰공고 등록</a><a href="#proposals">입찰 제안 검증</a><a href="#dailyCreate">일일 공사상황</a><a href="#reports">점검·감리 리포트</a><a href="#backup">데이터 백업</a></aside>
+<aside><div class="logo">COMAE <span>ADMIN</span></div><br><a href="#dashboard">대시보드</a><a href="#reservations">개인상담 예약</a><a href="#partners">협력업체 승인/고유번호</a><a href="#bidCreate">입찰공고 등록</a><a href="#proposals">입찰 제안 검증</a><a href="#dailyCreate">일일 공사상황</a><a href="#reports">점검·감리 리포트</a><a href="#backup" style="display:none">데이터 백업</a></aside>
 <main><div class="top"><div><h1>코매 관리자 페이지</h1><p class="sub">고객용 홈페이지와 실시간 클라우드 DB(Firebase)로 연결됩니다.</p></div><button onclick="location.reload()">새로고침</button></div>
 <section id="dashboard"><h2>대시보드</h2><div class="cards" id="dash"></div></section>
 <section id="reservations"><h2>개인상담 예약관리</h2><p class="desc">고객용 홈페이지에서 신청한 상담예약 목록입니다.</p><table><thead><tr><th>신청자</th><th>연락처</th><th>희망일</th><th>시간</th><th>방식</th><th>유형</th><th>상태</th><th>관리</th></tr></thead><tbody id="reservationRows"></tbody></table></section>
@@ -12,24 +12,64 @@
 <section id="proposals"><h2>입찰 제안 검증</h2><table><thead><tr><th>공고</th><th>번호</th><th>업체</th><th>구분</th><th>공종</th><th>금액</th><th>상태</th><th>처리</th></tr></thead><tbody id="proposalRows"></tbody></table></section>
 <section id="dailyCreate"><h2>일일 공사상황 업로드</h2><div id="dailyAlert" class="alert">일일 공사상황이 저장되었습니다.</div><form id="dailyForm"><div class="grid"><div><label>현장명</label><input name="project" required></div><div><label>작성일</label><input type="date" name="date" required></div><div><label>오늘 공정</label><input name="title"></div><div><label>상태</label><select name="status"><option>정상진행</option><option>지연</option><option>보완필요</option><option>문제발생</option></select></div><div class="full"><label>오늘 작업내용</label><textarea name="memo"></textarea></div><div class="full"><label>현장사진</label><input type="file" id="dailyPhotos" multiple accept="image/*"></div><div class="full"><button type="submit">일일 공사상황 저장</button></div></div></form><br><table><thead><tr><th>날짜</th><th>현장</th><th>공정</th><th>내용</th><th>사진</th><th>상태</th><th>관리</th></tr></thead><tbody id="dailyRows"></tbody></table></section>
 <section id="reports"><h2>집점검·공사시공점검 감리리포트</h2><table><thead><tr><th>종류</th><th>신청자</th><th>연락처</th><th>주소</th><th>내용</th><th>상태</th><th>처리</th></tr></thead><tbody id="reportRows"></tbody></table></section>
-<section id="backup"><h2>데이터 백업 / 초기화</h2><button onclick="exportData()">JSON 백업 복사</button><button class="danger" onclick="clearData()">전체 데이터 삭제</button><textarea id="backupText" style="margin-top:12px;min-height:180px;width:100%" placeholder="백업 데이터가 여기에 표시됩니다."></textarea></section>
+<section id="backup" style="display:none"><h2>데이터 백업 / 초기화</h2><button onclick="exportData()">JSON 백업 복사</button><button class="danger" onclick="clearData()">전체 데이터 삭제</button><textarea id="backupText" style="margin-top:12px;min-height:180px;width:100%" placeholder="백업 데이터가 여기에 표시됩니다."></textarea></section>
 </main><script type="module">
-import { listen, addItem, updateItem, removeItem as dbRemove, uploadPhotos, login, logout, onAuth, formObj } from './data.js';
+import { listen, addItem, updateItem, removeItem as dbRemove, uploadPhotos, login, logout, onAuth, myAdminRole, formObj } from './data.js';
 
 // 컬렉션별 실시간 캐시
 const cache={reservations:[],partners:[],bids:[],proposals:[],daily:[],reports:[]};
+
+// ── 검색 / 정렬 ────────────────────────────────────────────
+const TABLE_OF={reservations:'reservationRows',partners:'partnerRows',bids:'bidRows',proposals:'proposalRows',daily:'dailyRows',reports:'reportRows'};
+// 각 표의 컬럼 순서에 대응하는 정렬 키 (null = 정렬 불가 컬럼)
+const COLS={
+  reservations:['name','phone','date','time','method','type','status',null],
+  partners:['type','company','phone','region','category','code','status',null],
+  bids:['title','area','budget','categories',null,'status',null],
+  proposals:['bid_id','code','company','role','category','price','status',null],
+  daily:['date','project','title','memo',null,'status',null],
+  reports:['type','name','phone','address','memo','status',null]
+};
+const ui={};
+Object.keys(cache).forEach(c=>ui[c]={q:'',k:'created_at',dir:-1}); // 기본: 최신순
+function view(col){
+  const s=ui[col]; let arr=cache[col].slice();
+  if(s.q){ const q=s.q.toLowerCase(); arr=arr.filter(x=>Object.values(x).some(v=>String(v==null?'':v).toLowerCase().includes(q))); }
+  arr.sort((a,b)=>{ const av=a[s.k],bv=b[s.k]; if(av==null&&bv==null)return 0; if(av==null)return 1; if(bv==null)return -1; return av<bv?-s.dir:av>bv?s.dir:0; });
+  return arr;
+}
+function renderOne(col){ ({reservations:renderReservations,partners:renderPartners,bids:renderBidsTable,proposals:renderProposals,daily:renderDailyTable,reports:renderReports}[col])(); renderDash(); markSort(col); }
+function markSort(col){
+  const tb=document.getElementById(TABLE_OF[col]); if(!tb)return; const table=tb.closest('table'); if(!table||!table.tHead)return;
+  const ths=table.tHead.rows[0].cells, s=ui[col];
+  COLS[col].forEach((key,i)=>{ const th=ths[i]; if(!th)return; if(!th.dataset.base)th.dataset.base=th.textContent; th.textContent=(key&&key===s.k)?th.dataset.base+(s.dir>0?' ▲':' ▼'):th.dataset.base; });
+}
+let tablesReady=false;
+function setupTables(){
+  if(tablesReady)return; tablesReady=true;
+  Object.entries(TABLE_OF).forEach(([col,tbodyId])=>{
+    const table=document.getElementById(tbodyId).closest('table');
+    const box=document.createElement('div'); box.style.cssText='margin:0 0 10px';
+    const inp=document.createElement('input'); inp.type='search'; inp.placeholder='🔍 검색'; inp.style.maxWidth='320px';
+    inp.addEventListener('input',()=>{ ui[col].q=inp.value; renderOne(col); });
+    box.appendChild(inp); table.parentNode.insertBefore(box,table);
+    const ths=table.tHead.rows[0].cells;
+    COLS[col].forEach((key,i)=>{ const th=ths[i]; if(!key||!th)return; th.style.cursor='pointer'; th.title='클릭하여 정렬';
+      th.addEventListener('click',()=>{ const s=ui[col]; if(s.k===key)s.dir*=-1; else {s.k=key;s.dir=1;} renderOne(col); }); });
+  });
+}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function badge(s){const c=s==='승인'||s==='예약확정'||s==='후보등록'||s==='작성완료'||s==='정상진행'?'ok':(s==='반려'||s==='삭제'||s==='문제발생'?'bad':'warn');return `<span class="status ${c}">${esc(s)}</span>`}
 function code4(){return String(Math.floor(1000+Math.random()*9000))}
 function bidTitle(id){const b=cache.bids.find(x=>x.id===id);return b?b.title:'삭제된 공고'}
 
 function renderDash(){document.getElementById('dash').innerHTML=[['상담예약',cache.reservations.length],['협력업체',cache.partners.length],['승인업체',cache.partners.filter(x=>x.status==='승인').length],['입찰공고',cache.bids.length],['입찰제안',cache.proposals.length],['리포트',cache.reports.length]].map(x=>`<div class="admincard"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join('')}
-function renderReservations(){document.getElementById('reservationRows').innerHTML=cache.reservations.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.date)}</td><td>${esc(x.time)}</td><td>${esc(x.method)}</td><td>${esc(x.type)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reservations','${x.id}','예약확정')">확정</button><button class="small" onclick="setStatus('reservations','${x.id}','상담완료')">완료</button><button class="small gray" onclick="openEdit('reservations','${x.id}')">수정</button><button class="small danger" onclick="removeItem('reservations','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">예약 없음</td></tr>'}
-function renderPartners(){document.getElementById('partnerRows').innerHTML=cache.partners.map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.company)}</td><td>${esc(x.phone)}</td><td>${esc(x.region)}</td><td>${esc(x.category)}</td><td><b>${esc(x.code)}</b></td><td>${badge(x.status)}</td><td><button class="small" onclick="approvePartner('${x.id}')">승인·번호발급</button><button class="small danger" onclick="setStatus('partners','${x.id}','반려')">반려</button><button class="small gray" onclick="openEdit('partners','${x.id}')">수정</button><button class="small danger" onclick="removeItem('partners','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">신청 없음</td></tr>'}
-function renderBidsTable(){document.getElementById('bidRows').innerHTML=cache.bids.map(x=>`<tr><td>${esc(x.title)}</td><td>${esc(x.area)}</td><td>${esc(x.budget)}</td><td>${esc(x.categories)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('bids','${x.id}','마감')">마감</button><button class="small gray" onclick="openEdit('bids','${x.id}')">수정</button><button class="small danger" onclick="removeItem('bids','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공고 없음</td></tr>'}
-function renderProposals(){document.getElementById('proposalRows').innerHTML=cache.proposals.map(x=>`<tr><td>${esc(bidTitle(x.bid_id))}</td><td>${esc(x.code)}</td><td>${esc(x.company)}</td><td>${esc(x.role)}</td><td>${esc(x.category)}</td><td>${esc(x.price)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('proposals','${x.id}','후보등록')">후보</button><button class="small" onclick="setStatus('proposals','${x.id}','보류')">보류</button><button class="small gray" onclick="openEdit('proposals','${x.id}')">수정</button><button class="small danger" onclick="removeItem('proposals','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">입찰 제안 없음</td></tr>'}
-function renderDailyTable(){document.getElementById('dailyRows').innerHTML=cache.daily.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.project)}</td><td>${esc(x.title)}</td><td>${esc(x.memo)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small gray" onclick="openEdit('daily','${x.id}')">수정</button><button class="small danger" onclick="removeItem('daily','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공사상황 없음</td></tr>'}
-function renderReports(){document.getElementById('reportRows').innerHTML=cache.reports.map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.address)}</td><td>${esc(x.memo)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reports','${x.id}','작성완료')">완료</button><button class="small" onclick="setStatus('reports','${x.id}','보완필요')">보완</button><button class="small gray" onclick="openEdit('reports','${x.id}')">수정</button><button class="small danger" onclick="removeItem('reports','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">리포트 신청 없음</td></tr>'}
+function renderReservations(){document.getElementById('reservationRows').innerHTML=view('reservations').map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.date)}</td><td>${esc(x.time)}</td><td>${esc(x.method)}</td><td>${esc(x.type)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reservations','${x.id}','예약확정')">확정</button><button class="small" onclick="setStatus('reservations','${x.id}','상담완료')">완료</button><button class="small gray" onclick="openEdit('reservations','${x.id}')">수정</button><button class="small danger" onclick="removeItem('reservations','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">예약 없음</td></tr>'}
+function renderPartners(){document.getElementById('partnerRows').innerHTML=view('partners').map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.company)}</td><td>${esc(x.phone)}</td><td>${esc(x.region)}</td><td>${esc(x.category)}</td><td><b>${esc(x.code)}</b></td><td>${badge(x.status)}</td><td><button class="small" onclick="approvePartner('${x.id}')">승인·번호발급</button><button class="small danger" onclick="setStatus('partners','${x.id}','반려')">반려</button><button class="small gray" onclick="openEdit('partners','${x.id}')">수정</button><button class="small danger" onclick="removeItem('partners','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">신청 없음</td></tr>'}
+function renderBidsTable(){document.getElementById('bidRows').innerHTML=view('bids').map(x=>`<tr><td>${esc(x.title)}</td><td>${esc(x.area)}</td><td>${esc(x.budget)}</td><td>${esc(x.categories)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('bids','${x.id}','마감')">마감</button><button class="small gray" onclick="openEdit('bids','${x.id}')">수정</button><button class="small danger" onclick="removeItem('bids','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공고 없음</td></tr>'}
+function renderProposals(){document.getElementById('proposalRows').innerHTML=view('proposals').map(x=>`<tr><td>${esc(bidTitle(x.bid_id))}</td><td>${esc(x.code)}</td><td>${esc(x.company)}</td><td>${esc(x.role)}</td><td>${esc(x.category)}</td><td>${esc(x.price)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('proposals','${x.id}','후보등록')">후보</button><button class="small" onclick="setStatus('proposals','${x.id}','보류')">보류</button><button class="small gray" onclick="openEdit('proposals','${x.id}')">수정</button><button class="small danger" onclick="removeItem('proposals','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">입찰 제안 없음</td></tr>'}
+function renderDailyTable(){document.getElementById('dailyRows').innerHTML=view('daily').map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.project)}</td><td>${esc(x.title)}</td><td>${esc(x.memo)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small gray" onclick="openEdit('daily','${x.id}')">수정</button><button class="small danger" onclick="removeItem('daily','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공사상황 없음</td></tr>'}
+function renderReports(){document.getElementById('reportRows').innerHTML=view('reports').map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.address)}</td><td>${esc(x.memo)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reports','${x.id}','작성완료')">완료</button><button class="small" onclick="setStatus('reports','${x.id}','보완필요')">보완</button><button class="small gray" onclick="openEdit('reports','${x.id}')">수정</button><button class="small danger" onclick="removeItem('reports','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">리포트 신청 없음</td></tr>'}
 
 // 인라인 onclick 핸들러는 모듈 스코프 밖이므로 window 에 노출
 window.setStatus=(g,id,s)=>updateItem(g,id,{status:s}).catch(e=>alert('변경 실패: '+(e.message||e)));
@@ -122,6 +162,7 @@ asideEl.appendChild(logoutLink);
 let unsubs=[];
 function startApp(){
   if(unsubs.length)return;
+  setupTables();
   unsubs.push(listen('reservations',d=>{cache.reservations=d;renderReservations();renderDash()}));
   unsubs.push(listen('partners',d=>{cache.partners=d;renderPartners();renderDash()}));
   unsubs.push(listen('bids',d=>{cache.bids=d;renderBidsTable();renderProposals();renderDash()}));
@@ -131,8 +172,17 @@ function startApp(){
 }
 function stopApp(){unsubs.forEach(u=>{try{u&&u()}catch(_){}});unsubs=[];}
 
+// 권한에 따라 백업/초기화 섹션 표시 (사장: boss 만 노출)
+function applyRole(role){
+  const isBoss = role==='boss';
+  const sec=document.getElementById('backup');
+  const link=document.querySelector('aside a[href="#backup"]');
+  if(sec) sec.style.display = isBoss?'':'none';
+  if(link) link.style.display = isBoss?'':'none';
+}
+
 onAuth(user=>{
-  if(user){gate.style.display='none';mainEl.style.display='';asideEl.style.display='';startApp();}
+  if(user){gate.style.display='none';mainEl.style.display='';asideEl.style.display='';startApp();myAdminRole().then(applyRole);}
   else{gate.style.display='flex';mainEl.style.display='none';asideEl.style.display='none';stopApp();}
 });
 </script></body></html>

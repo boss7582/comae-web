@@ -115,6 +115,14 @@ export function onAuth(cb) {
   return () => sub.subscription.unsubscribe();
 }
 
+// 현재 로그인한 관리자의 권한('boss' | 'staff' | null) 조회
+export async function myAdminRole() {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) return null;
+  const { data } = await sb.from("admins").select("role").eq("id", user.id).maybeSingle();
+  return data ? (data.role || "staff") : null;
+}
+
 // ── 폼 → 객체 ───────────────────────────────────────────────
 export function formObj(form) {
   return Object.fromEntries(new FormData(form).entries());

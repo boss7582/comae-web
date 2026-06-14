@@ -12,10 +12,10 @@
 <section id="service" class="dark"><div class="wrap"><h2>주요서비스</h2><p class="sub">상담부터 입찰, 공사진행, 점검·감리까지 한 번에 관리합니다.</p><div class="grid"><div class="card"><span class="badge">01</span><h3>반셀프 인테리어 운영·감리</h3><p>고객과 공정별 업체를 연결하고 본사가 일정·현장·품질을 관리합니다.</p></div><div class="card"><span class="badge">02</span><h3>현장별 입찰공고</h3><p>현장사진, 공사범위, 예산, 일정 기준으로 협력업체 입찰을 받습니다.</p></div><div class="card"><span class="badge">03</span><h3>협력업체 고유번호 입찰</h3><p>승인된 업체만 4자리 고유번호로 입찰합니다.</p></div><div class="card"><span class="badge">04</span><h3>일일 공사진행 공개</h3><p>각 현장의 현재 공사상황과 사진을 매일 업로드합니다.</p></div><div class="card"><span class="badge">05</span><h3>집점검 리포트</h3><p>입주 전·거주 중 하자와 생활불편사항을 점검합니다.</p></div><div class="card"><span class="badge">06</span><h3>공사시공점검 감리리포트</h3><p>공정별 시공상태, 보완사항, 재점검 결과를 관리합니다.</p></div></div></div></section>
 <section id="process"><div class="wrap"><h2>진행절차</h2><p class="sub">개인상담예약 후 현장정보를 정리하고, 입찰과 감리관리까지 단계적으로 진행합니다.</p><div class="grid"><div class="card"><span class="badge">STEP 1</span><h3>개인상담 예약</h3><p>전화, 방문, 카카오톡, 현장방문 상담 중 선택합니다.</p></div><div class="card"><span class="badge">STEP 2</span><h3>현장사진·내용 접수</h3><p>공사범위, 예산, 일정, 현장사진을 접수합니다.</p></div><div class="card"><span class="badge">STEP 3</span><h3>입찰공고 등록</h3><p>개인정보를 제외한 현장정보로 입찰공고를 등록합니다.</p></div></div></div></section>
 <section id="reservation" style="background:#eef3f8"><div class="wrap"><h2>개인상담 예약신청</h2><p class="sub">입력 후 관리자 페이지에서 바로 확인할 수 있습니다.</p><div id="reservationAlert" class="alert">상담예약이 저장되었습니다.</div><form id="reservationForm"><div class="form-grid"><div><label>이름</label><input name="name" required></div><div><label>연락처</label><input name="phone" type="tel" required pattern="010-\d{4}-\d{4}" maxlength="13" placeholder="010-0000-0000" title="010-0000-0000 형식으로 입력하세요"></div><div><label>상담 희망일</label><input type="date" name="date" required></div><div><label>상담 희망시간</label><select name="time"><option>오전 9시~11시</option><option>오전 11시~오후 1시</option><option>오후 1시~3시</option><option>오후 3시~5시</option><option>오후 5시 이후</option></select></div><div><label>상담방식</label><select name="method"><option>전화상담</option><option>방문상담</option><option>카카오톡 상담</option><option>현장방문 상담</option></select></div><div><label>상담유형</label><select name="type"><option>인테리어 공사 상담</option><option>입주 전 집점검</option><option>거주 중 집점검</option><option>공인중개사 제휴</option><option>협력업체 등록문의</option></select></div><div><label>현장주소</label><input name="address"></div><div><label>예상예산</label><input name="budget"></div><div class="full"><label>상담 요청내용</label><textarea name="memo"></textarea></div><div class="full"><button type="submit">개인상담 예약신청</button></div></div></form></div></section>
-<section id="bids"><div class="wrap"><h2>현장별 입찰공고</h2><p class="sub">관리자 페이지에서 등록한 입찰공고가 여기에 표시됩니다.</p><div id="bidList"></div></div></section>
+<section id="bids"><div class="wrap"><h2>현장별 입찰공고</h2><p class="sub">관리자 페이지에서 등록한 입찰공고가 여기에 표시됩니다.</p><input id="bidSearch" type="search" placeholder="🔍 공고 검색 (제목·지역·공종 등)" style="max-width:340px;margin-bottom:16px"><div id="bidList"></div></div></section>
 <section id="bidApply" style="background:#eef3f8"><div class="wrap"><h2>협력업체 입찰 참여 신청</h2><p class="sub">승인된 협력업체의 4자리 고유번호가 일치해야 접수됩니다.</p><div id="bidAlert" class="alert">입찰 제안이 접수되었습니다.</div><form id="proposalForm"><div class="form-grid"><div><label>거래처 고유번호 4자리</label><input name="code" inputmode="numeric" pattern="\d{4}" maxlength="4" required placeholder="예: 1027" title="숫자 4자리를 입력하세요"></div><div><label>업체명</label><input name="company" required></div><div><label>참여 공고</label><select id="proposalBidSelect" name="bidId"></select></div><div><label>참여구분</label><select name="role"><option>현장소장</option><option>시공업체</option><option>자재업체</option><option>철거/운송팀</option></select></div><div><label>공종</label><input name="category" required></div><div><label>제안금액</label><input name="price" required></div><div><label>가능일정</label><input name="schedule"></div><div><label>A/S 가능 여부</label><select name="as"><option>가능</option><option>협의</option><option>불가</option></select></div><div class="full"><label>입찰 제안내용</label><textarea name="memo"></textarea></div><div class="full"><button type="submit">고유번호 확인 후 입찰 제출</button></div></div></form></div></section>
 <section id="partner"><div class="wrap"><h2>현장소장·거래처·협력업체 신청등록</h2><p class="sub">승인 후 관리자 페이지에서 4자리 거래처 고유번호가 발급됩니다.</p><div id="partnerAlert" class="alert">협력업체 신청이 접수되었습니다.</div><form id="partnerForm"><div class="form-grid"><div><label>신청구분</label><select name="type"><option>현장소장</option><option>시공 협력업체</option><option>자재 거래처</option><option>철거/운송팀</option><option>공인중개사 제휴</option></select></div><div><label>업체명 / 성명</label><input name="company" required></div><div><label>대표자</label><input name="owner"></div><div><label>연락처</label><input name="phone" type="tel" required pattern="010-\d{4}-\d{4}" maxlength="13" placeholder="010-0000-0000" title="010-0000-0000 형식으로 입력하세요"></div><div><label>담당지역</label><input name="region"></div><div><label>전문 공종</label><input name="category"></div><div><label>사업자등록번호</label><input name="bizno" inputmode="numeric" pattern="\d{3}-\d{2}-\d{5}" maxlength="12" placeholder="000-00-00000" title="000-00-00000 형식으로 입력하세요"></div><div><label>경력 / 거래조건</label><input name="terms"></div><div class="full"><label>자기소개 및 협력 가능 내용</label><textarea name="memo"></textarea></div><div class="full"><button type="submit">협력업체 신청등록</button></div></div></form></div></section>
-<section id="daily" style="background:#eef3f8"><div class="wrap"><h2>현장별 일일 공사상황</h2><p class="sub">관리자 페이지에서 올린 오늘의 공사내용과 사진입니다.</p><div id="dailyList"></div></div></section>
+<section id="daily" style="background:#eef3f8"><div class="wrap"><h2>현장별 일일 공사상황</h2><p class="sub">관리자 페이지에서 올린 오늘의 공사내용과 사진입니다.</p><input id="dailySearch" type="search" placeholder="🔍 현장·내용 검색" style="max-width:340px;margin-bottom:16px"><div id="dailyList"></div></div></section>
 <section id="reports"><div class="wrap"><h2>집점검·공사시공점검 감리리포트 신청</h2><div id="reportAlert" class="alert">리포트 신청이 저장되었습니다.</div><form id="reportForm"><div class="form-grid"><div><label>리포트 신청 종류</label><select name="type"><option>입주 전 집점검 리포트</option><option>거주 중 집점검 리포트</option><option>공사 시공점검 감리리포트</option></select></div><div><label>신청자명</label><input name="name" required></div><div><label>연락처</label><input name="phone" type="tel" required pattern="010-\d{4}-\d{4}" maxlength="13" placeholder="010-0000-0000" title="010-0000-0000 형식으로 입력하세요"></div><div><label>점검 주소</label><input name="address"></div><div class="full"><label>점검 요청내용</label><textarea name="memo"></textarea></div><div class="full"><button type="submit">점검·감리 리포트 신청</button></div></div></form></div></section>
 <footer><div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px"><div><b>코스트 매칭 인테리어시스템 COMAE</b><br>전화 010-2325-1617 · 이메일 boss7582@hanmail.net · 홈페이지 www.comae.co.kr</div><a href="comae_admin_working.html" style="font-size:13px;color:#cbd6e5;border:1px solid #2c4a72;padding:8px 16px;border-radius:999px;white-space:nowrap">관리자 페이지 →</a></div></footer>
 <script type="module">
@@ -50,25 +50,36 @@ document.querySelectorAll('input[name="bizno"]').forEach(inp=>{
 const todayStr=new Date().toISOString().slice(0,10);
 document.querySelectorAll('input[type="date"]').forEach(d=>{ if(!d.min) d.min=todayStr; });
 
-// 입찰공고 실시간 표시 (관리자가 등록하면 자동 반영)
-listen('bids', bids=>{
+// 입찰공고 실시간 표시 + 검색 (관리자가 등록하면 자동 반영)
+let lastBids=[], bidQ='';
+listen('bids', bids=>{ lastBids=bids; renderBidList(); });
+function renderBidList(){
   const box=document.getElementById('bidList'), sel=document.getElementById('proposalBidSelect');
-  const open=bids.filter(b=>b.status!=='마감');
+  const open=lastBids.filter(b=>b.status!=='마감');
   sel.innerHTML=open.map(b=>`<option value="${esc(b.id)}">${esc(b.title)}</option>`).join('');
-  box.innerHTML=open.map(b=>{
+  const q=bidQ.trim().toLowerCase();
+  const shown=q?open.filter(b=>Object.values(b).some(v=>String(v==null?'':v).toLowerCase().includes(q))):open;
+  box.innerHTML=shown.map(b=>{
     const p=(b.photos||[])[0]?`<img src="${esc(b.photos[0])}">`:'현장사진<br>관리자 등록';
     return `<article class="notice"><div class="photo">${p}</div><div class="body"><span class="badge">${esc(b.status)}</span><h3>${esc(b.title)}</h3><p>${esc(b.memo)}</p><div class="chips"><span class="chip">${esc(b.categories)}</span><span class="chip">개인정보 비공개</span></div></div><div class="price"><small>고객 예산</small><strong>${esc(b.budget)||'협의'}</strong><a class="btn" href="#bidApply">입찰참여</a></div></article>`;
-  }).join('') || '<div class="box">현재 등록된 입찰공고가 없습니다.</div>';
-});
+  }).join('') || `<div class="box">${q?'검색 결과가 없습니다.':'현재 등록된 입찰공고가 없습니다.'}</div>`;
+}
+{ const el=document.getElementById('bidSearch'); if(el) el.addEventListener('input',()=>{ bidQ=el.value; renderBidList(); }); }
 
-// 일일 공사상황 실시간 표시 (최신순)
-listen('daily', list=>{
+// 일일 공사상황 실시간 표시 + 검색 (최신순)
+let lastDaily=[], dailyQ='';
+listen('daily', list=>{ lastDaily=list; renderDailyList(); });
+function renderDailyList(){
   const box=document.getElementById('dailyList');
-  box.innerHTML=list.slice().reverse().map(x=>{
+  const q=dailyQ.trim().toLowerCase();
+  let arr=lastDaily.slice().reverse();
+  if(q) arr=arr.filter(x=>Object.values(x).some(v=>String(v==null?'':v).toLowerCase().includes(q)));
+  box.innerHTML=arr.map(x=>{
     const imgs=(x.photos||[]).map(p=>`<div class="thumb"><img src="${esc(p)}"></div>`).join('')||'<div class="thumb">사진 없음</div>';
     return `<div class="box" style="margin-bottom:14px"><span class="badge">${esc(x.date)}</span><h3>${esc(x.project)} / ${esc(x.title)}</h3><p>${esc(x.memo)}</p><div class="thumbwrap">${imgs}</div></div>`;
-  }).join('') || '<div class="box">아직 등록된 공사상황이 없습니다.</div>';
-});
+  }).join('') || `<div class="box">${q?'검색 결과가 없습니다.':'아직 등록된 공사상황이 없습니다.'}</div>`;
+}
+{ const el=document.getElementById('dailySearch'); if(el) el.addEventListener('input',()=>{ dailyQ=el.value; renderDailyList(); }); }
 
 // 상담예약
 document.getElementById('reservationForm').onsubmit=async e=>{
