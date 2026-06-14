@@ -46,13 +46,38 @@ export async function removeItem(table, id) {
   if (error) throw error;
 }
 
+// ── 사진 압축 (업로드 전 용량 절감) ──────────────────────────
+// 가로/세로 최대 maxDim px 로 줄이고 JPEG 품질 quality 로 재인코딩.
+// 이미지가 아니거나 변환 실패 시 원본을 그대로 반환.
+async function compressImage(file, maxDim = 1280, quality = 0.7) {
+  if (!file.type || !file.type.startsWith("image/")) return file;
+  let bitmap;
+  try { bitmap = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+  catch (_) { return file; }
+  let { width, height } = bitmap;
+  if (width > maxDim || height > maxDim) {
+    const r = Math.min(maxDim / width, maxDim / height);
+    width = Math.round(width * r);
+    height = Math.round(height * r);
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = width; canvas.height = height;
+  canvas.getContext("2d").drawImage(bitmap, 0, 0, width, height);
+  const blob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", quality));
+  // 압축본이 원본보다 크면 원본 사용
+  return (blob && blob.size < file.size) ? blob : file;
+}
+
 // ── 사진 업로드 (Storage: photos 버킷) ──────────────────────
 export async function uploadPhotos(folder, fileInput) {
   const files = [...(fileInput?.files || [])].slice(0, 8);
   const urls = [];
   for (const f of files) {
-    const path = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2, 7)}_${f.name}`;
-    const { error } = await sb.storage.from("photos").upload(path, f, { contentType: f.type });
+    const blob = await compressImage(f);
+    const ct = blob.type || f.type || "image/jpeg";
+    const ext = ct.includes("png") ? "png" : ct.includes("webp") ? "webp" : "jpg";
+    const path = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2, 7)}.${ext}`;
+    const { error } = await sb.storage.from("photos").upload(path, blob, { contentType: ct });
     if (error) throw error;
     urls.push(sb.storage.from("photos").getPublicUrl(path).data.publicUrl);
   }

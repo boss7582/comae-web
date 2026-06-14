@@ -24,12 +24,12 @@ function code4(){return String(Math.floor(1000+Math.random()*9000))}
 function bidTitle(id){const b=cache.bids.find(x=>x.id===id);return b?b.title:'삭제된 공고'}
 
 function renderDash(){document.getElementById('dash').innerHTML=[['상담예약',cache.reservations.length],['협력업체',cache.partners.length],['승인업체',cache.partners.filter(x=>x.status==='승인').length],['입찰공고',cache.bids.length],['입찰제안',cache.proposals.length],['리포트',cache.reports.length]].map(x=>`<div class="admincard"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join('')}
-function renderReservations(){document.getElementById('reservationRows').innerHTML=cache.reservations.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.date)}</td><td>${esc(x.time)}</td><td>${esc(x.method)}</td><td>${esc(x.type)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reservations','${x.id}','예약확정')">확정</button><button class="small" onclick="setStatus('reservations','${x.id}','상담완료')">완료</button><button class="small danger" onclick="removeItem('reservations','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">예약 없음</td></tr>'}
-function renderPartners(){document.getElementById('partnerRows').innerHTML=cache.partners.map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.company)}</td><td>${esc(x.phone)}</td><td>${esc(x.region)}</td><td>${esc(x.category)}</td><td><b>${esc(x.code)}</b></td><td>${badge(x.status)}</td><td><button class="small" onclick="approvePartner('${x.id}')">승인·번호발급</button><button class="small danger" onclick="setStatus('partners','${x.id}','반려')">반려</button><button class="small danger" onclick="removeItem('partners','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">신청 없음</td></tr>'}
-function renderBidsTable(){document.getElementById('bidRows').innerHTML=cache.bids.map(x=>`<tr><td>${esc(x.title)}</td><td>${esc(x.area)}</td><td>${esc(x.budget)}</td><td>${esc(x.categories)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('bids','${x.id}','마감')">마감</button><button class="small danger" onclick="removeItem('bids','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공고 없음</td></tr>'}
-function renderProposals(){document.getElementById('proposalRows').innerHTML=cache.proposals.map(x=>`<tr><td>${esc(bidTitle(x.bid_id))}</td><td>${esc(x.code)}</td><td>${esc(x.company)}</td><td>${esc(x.role)}</td><td>${esc(x.category)}</td><td>${esc(x.price)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('proposals','${x.id}','후보등록')">후보</button><button class="small" onclick="setStatus('proposals','${x.id}','보류')">보류</button><button class="small danger" onclick="removeItem('proposals','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">입찰 제안 없음</td></tr>'}
-function renderDailyTable(){document.getElementById('dailyRows').innerHTML=cache.daily.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.project)}</td><td>${esc(x.title)}</td><td>${esc(x.memo)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small danger" onclick="removeItem('daily','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공사상황 없음</td></tr>'}
-function renderReports(){document.getElementById('reportRows').innerHTML=cache.reports.map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.address)}</td><td>${esc(x.memo)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reports','${x.id}','작성완료')">완료</button><button class="small" onclick="setStatus('reports','${x.id}','보완필요')">보완</button><button class="small danger" onclick="removeItem('reports','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">리포트 신청 없음</td></tr>'}
+function renderReservations(){document.getElementById('reservationRows').innerHTML=cache.reservations.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.date)}</td><td>${esc(x.time)}</td><td>${esc(x.method)}</td><td>${esc(x.type)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reservations','${x.id}','예약확정')">확정</button><button class="small" onclick="setStatus('reservations','${x.id}','상담완료')">완료</button><button class="small gray" onclick="openEdit('reservations','${x.id}')">수정</button><button class="small danger" onclick="removeItem('reservations','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">예약 없음</td></tr>'}
+function renderPartners(){document.getElementById('partnerRows').innerHTML=cache.partners.map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.company)}</td><td>${esc(x.phone)}</td><td>${esc(x.region)}</td><td>${esc(x.category)}</td><td><b>${esc(x.code)}</b></td><td>${badge(x.status)}</td><td><button class="small" onclick="approvePartner('${x.id}')">승인·번호발급</button><button class="small danger" onclick="setStatus('partners','${x.id}','반려')">반려</button><button class="small gray" onclick="openEdit('partners','${x.id}')">수정</button><button class="small danger" onclick="removeItem('partners','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">신청 없음</td></tr>'}
+function renderBidsTable(){document.getElementById('bidRows').innerHTML=cache.bids.map(x=>`<tr><td>${esc(x.title)}</td><td>${esc(x.area)}</td><td>${esc(x.budget)}</td><td>${esc(x.categories)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('bids','${x.id}','마감')">마감</button><button class="small gray" onclick="openEdit('bids','${x.id}')">수정</button><button class="small danger" onclick="removeItem('bids','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공고 없음</td></tr>'}
+function renderProposals(){document.getElementById('proposalRows').innerHTML=cache.proposals.map(x=>`<tr><td>${esc(bidTitle(x.bid_id))}</td><td>${esc(x.code)}</td><td>${esc(x.company)}</td><td>${esc(x.role)}</td><td>${esc(x.category)}</td><td>${esc(x.price)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('proposals','${x.id}','후보등록')">후보</button><button class="small" onclick="setStatus('proposals','${x.id}','보류')">보류</button><button class="small gray" onclick="openEdit('proposals','${x.id}')">수정</button><button class="small danger" onclick="removeItem('proposals','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="8">입찰 제안 없음</td></tr>'}
+function renderDailyTable(){document.getElementById('dailyRows').innerHTML=cache.daily.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.project)}</td><td>${esc(x.title)}</td><td>${esc(x.memo)}</td><td>${(x.photos||[]).length}장</td><td>${badge(x.status)}</td><td><button class="small gray" onclick="openEdit('daily','${x.id}')">수정</button><button class="small danger" onclick="removeItem('daily','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">공사상황 없음</td></tr>'}
+function renderReports(){document.getElementById('reportRows').innerHTML=cache.reports.map(x=>`<tr><td>${esc(x.type)}</td><td>${esc(x.name)}</td><td>${esc(x.phone)}</td><td>${esc(x.address)}</td><td>${esc(x.memo)}</td><td>${badge(x.status)}</td><td><button class="small" onclick="setStatus('reports','${x.id}','작성완료')">완료</button><button class="small" onclick="setStatus('reports','${x.id}','보완필요')">보완</button><button class="small gray" onclick="openEdit('reports','${x.id}')">수정</button><button class="small danger" onclick="removeItem('reports','${x.id}')">삭제</button></td></tr>`).join('')||'<tr><td colspan="7">리포트 신청 없음</td></tr>'}
 
 // 인라인 onclick 핸들러는 모듈 스코프 밖이므로 window 에 노출
 window.setStatus=(g,id,s)=>updateItem(g,id,{status:s}).catch(e=>alert('변경 실패: '+(e.message||e)));
@@ -37,6 +37,37 @@ window.removeItem=async(g,id)=>{if(!confirm('삭제할까요?'))return;try{await
 window.approvePartner=async id=>{const x=cache.partners.find(i=>i.id===id);if(!x)return;const patch={status:'승인'};if(!x.code){let c;do{c=code4()}while(cache.partners.some(p=>p.code===c));patch.code=c}try{await updateItem('partners',id,patch)}catch(e){alert('승인 실패: '+(e.message||e))}};
 window.exportData=()=>{const text=JSON.stringify(cache,null,2);document.getElementById('backupText').value=text;if(navigator.clipboard)navigator.clipboard.writeText(text);alert('현재 전체 데이터를 표시하고 클립보드에 복사했습니다.')};
 window.clearData=async()=>{if(!confirm('정말 전체 데이터를 삭제할까요? 되돌릴 수 없습니다.'))return;if(!confirm('한 번 더 확인합니다. 모든 데이터가 영구 삭제됩니다.'))return;try{for(const col of Object.keys(cache)){for(const it of [...cache[col]]){await dbRemove(col,it.id)}}alert('전체 데이터를 삭제했습니다.')}catch(e){alert('삭제 실패: '+(e.message||e))}};
+
+// ── 항목 수정 모달 ─────────────────────────────────────────
+const FIELD_LABELS={name:'이름/신청자',phone:'연락처',date:'날짜',time:'시간',method:'상담방식',type:'구분/유형',address:'주소',budget:'예산',memo:'내용',status:'상태',company:'업체명',owner:'대표자',region:'지역',category:'공종',bizno:'사업자번호',terms:'경력/거래조건',code:'고유번호',title:'제목/공정',area:'지역',categories:'필요공종',project:'현장명',role:'참여구분',price:'제안금액',schedule:'가능일정',as_support:'A/S'};
+const EDIT_SKIP=new Set(['id','created_at','photos','partner_id','bid_id']);
+const editModal=document.createElement('div');
+editModal.style.cssText='position:fixed;inset:0;background:rgba(7,26,50,.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px';
+document.body.appendChild(editModal);
+editModal.addEventListener('click',e=>{ if(e.target===editModal) editModal.style.display='none'; });
+window.openEdit=(table,id)=>{
+  const item=cache[table].find(x=>x.id===id);
+  if(!item) return;
+  const rows=Object.keys(item).filter(k=>!EDIT_SKIP.has(k)).map(k=>{
+    const label=esc(FIELD_LABELS[k]||k), val=esc(item[k]==null?'':item[k]);
+    return k==='memo'
+      ? `<div class="full"><label>${label}</label><textarea name="${k}">${val}</textarea></div>`
+      : `<div><label>${label}</label><input name="${k}" value="${val}"></div>`;
+  }).join('');
+  editModal.innerHTML=`<form id="editForm" style="background:#fff;border-radius:18px;padding:24px;width:min(720px,100%);max-height:90vh;overflow:auto">
+    <h2 style="margin-bottom:14px">항목 수정</h2><div class="grid">${rows}</div>
+    <div class="full" style="margin-top:16px;display:flex;gap:8px">
+      <button type="submit">저장</button>
+      <button type="button" class="gray" id="editCancel">취소</button>
+    </div></form>`;
+  editModal.style.display='flex';
+  document.getElementById('editCancel').onclick=()=>{ editModal.style.display='none'; };
+  document.getElementById('editForm').onsubmit=async e=>{
+    e.preventDefault();
+    try{ await updateItem(table,id,formObj(e.target)); editModal.style.display='none'; }
+    catch(err){ alert('수정 실패: '+(err.message||err)); }
+  };
+};
 
 // 입찰공고 등록 (사진은 Storage 업로드)
 document.getElementById('bidForm').onsubmit=async e=>{
