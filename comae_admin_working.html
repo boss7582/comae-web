@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>코매 관리자 페이지</title>
 <style>
-:root{--navy:#071a32;--blue:#123a66;--gold:#d8aa4c;--bg:#f5f7fb;--line:#e5ebf3;--text:#14243d;--muted:#64748b}*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;display:flex}aside{width:285px;background:var(--navy);color:white;padding:22px;position:fixed;height:100vh;overflow:auto}.logo{font-size:22px;font-weight:900}.logo span{color:var(--gold)}aside a{display:block;padding:10px 12px;border-radius:10px;color:#dce6f5;margin-bottom:4px;text-decoration:none}aside a:hover{background:#123a66}main{margin-left:285px;width:calc(100% - 285px);padding:24px}.sub,.desc{color:var(--muted);margin-bottom:16px}section,.panel,form{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(16,35,63,.06);margin-bottom:22px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.admincard{background:white;border:1px solid var(--line);border-radius:16px;padding:16px}.admincard strong{display:block;font-size:24px;color:var(--blue)}table{width:100%;border-collapse:collapse;font-size:14px;background:white}th,td{padding:11px;border-bottom:1px solid #edf1f6;text-align:left;vertical-align:top}th{background:#f8fafc;color:#40516a}.status{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;background:#eaf1fb;color:#123a66}.ok{background:#ecfdf3;color:#067647}.warn{background:#fff6df;color:#9a6700}.bad{background:#fff1f1;color:#b42318}button{border:0;background:var(--navy);color:white;border-radius:10px;padding:9px 12px;font-weight:900;cursor:pointer;margin:2px}.small{font-size:12px;padding:7px 9px}.danger{background:#8a1f1f}.gray{background:#526173}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}label{display:block;font-weight:900;font-size:13px;margin-bottom:5px}input,select,textarea{width:100%;padding:12px;border:1px solid #dbe3ef;border-radius:12px;background:#fbfcfe;font-family:inherit;font-size:14px}textarea{min-height:96px}.full{grid-column:1/-1}.alert{padding:12px 14px;border-radius:12px;margin:12px 0;background:#ecfdf3;color:#067647;font-weight:800;display:none}@media(max-width:1000px){body{display:block}aside{position:static;width:100%;height:auto}main{margin-left:0;width:100%}.cards,.grid{grid-template-columns:1fr}}
+:root{--navy:#071a32;--blue:#123a66;--gold:#d8aa4c;--bg:#f5f7fb;--line:#e5ebf3;--text:#14243d;--muted:#64748b}*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;display:flex}aside{width:285px;background:var(--navy);color:white;padding:22px;position:fixed;height:100vh;overflow:auto}.logo{font-size:22px;font-weight:900}.logo span{color:var(--gold)}aside a{display:block;padding:10px 12px;border-radius:10px;color:#dce6f5;margin-bottom:4px;text-decoration:none}aside a:hover{background:#123a66}main{margin-left:285px;width:calc(100% - 285px);padding:24px}.sub,.desc{color:var(--muted);margin-bottom:16px}section,.panel,form{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(16,35,63,.06);margin-bottom:22px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.admincard{background:white;border:1px solid var(--line);border-radius:16px;padding:16px}.admincard strong{display:block;font-size:24px;color:var(--blue)}table{width:100%;border-collapse:collapse;font-size:14px;background:white}th,td{padding:11px;border-bottom:1px solid #edf1f6;text-align:left;vertical-align:top}th{background:#f8fafc;color:#40516a}.status{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;background:#eaf1fb;color:#123a66}.ok{background:#ecfdf3;color:#067647}.warn{background:#fff6df;color:#9a6700}.bad{background:#fff1f1;color:#b42318}button{border:0;background:var(--navy);color:white;border-radius:10px;padding:9px 12px;font-weight:900;cursor:pointer;margin:2px}.small{font-size:12px;padding:7px 9px}.danger{background:#8a1f1f}.gray{background:#526173}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}label{display:block;font-weight:900;font-size:13px;margin-bottom:5px}input,select,textarea{width:100%;padding:12px;border:1px solid #dbe3ef;border-radius:12px;background:#fbfcfe;font-family:inherit;font-size:14px}textarea{min-height:96px}.full{grid-column:1/-1}.alert{padding:12px 14px;border-radius:12px;margin:12px 0;background:#ecfdf3;color:#067647;font-weight:800;display:none}@media(max-width:1000px){body{display:block}aside{position:static;width:100%;height:auto}main{margin-left:0;width:100%;padding:16px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.top{flex-wrap:wrap;gap:10px}input,select,textarea{font-size:16px}section,.panel,form{padding:16px}h1{font-size:24px}aside{display:flex;flex-wrap:wrap;gap:4px;align-items:center}aside .logo{width:100%}aside a{margin-bottom:0}}
 </style></head><body>
 <aside><div class="logo">COMAE <span>ADMIN</span></div><br><a href="#dashboard">대시보드</a><a href="#reservations">개인상담 예약</a><a href="#partners">협력업체 승인/고유번호</a><a href="#bidCreate">입찰공고 등록</a><a href="#proposals">입찰 제안 검증</a><a href="#dailyCreate">일일 공사상황</a><a href="#reports">점검·감리 리포트</a><a href="#backup" style="display:none">데이터 백업</a></aside>
 <main><div class="top"><div><h1>코매 관리자 페이지</h1><p class="sub">고객용 홈페이지와 실시간 클라우드 DB(Firebase)로 연결됩니다.</p></div><button onclick="location.reload()">새로고침</button></div>
@@ -53,12 +53,23 @@ function setupTables(){
     const inp=document.createElement('input'); inp.type='search'; inp.placeholder='🔍 검색'; inp.style.maxWidth='320px';
     inp.addEventListener('input',()=>{ ui[col].q=inp.value; renderOne(col); });
     box.appendChild(inp); table.parentNode.insertBefore(box,table);
+    const scroll=document.createElement('div'); scroll.style.cssText='overflow-x:auto;-webkit-overflow-scrolling:touch';
+    table.parentNode.insertBefore(scroll,table); scroll.appendChild(table); table.style.minWidth='620px';
     const ths=table.tHead.rows[0].cells;
     COLS[col].forEach((key,i)=>{ const th=ths[i]; if(!key||!th)return; th.style.cursor='pointer'; th.title='클릭하여 정렬';
       th.addEventListener('click',()=>{ const s=ui[col]; if(s.k===key)s.dir*=-1; else {s.k=key;s.dir=1;} renderOne(col); }); });
   });
 }
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+// 제출 성공 시 버튼을 초록 "완료"로 바꿨다가 2초 뒤 원래대로
+function flashDone(form,msg){
+  const btn=form.querySelector('button[type="submit"]')||form.querySelector('button');
+  if(!btn||btn.dataset.busy)return;
+  btn.dataset.busy='1';
+  const t=btn.textContent,bg=btn.style.background,fg=btn.style.color;
+  btn.textContent=msg; btn.style.background='#067647'; btn.style.color='#fff';
+  setTimeout(()=>{ btn.textContent=t; btn.style.background=bg; btn.style.color=fg; delete btn.dataset.busy; },2000);
+}
 function badge(s){const c=s==='승인'||s==='예약확정'||s==='후보등록'||s==='작성완료'||s==='정상진행'?'ok':(s==='반려'||s==='삭제'||s==='문제발생'?'bad':'warn');return `<span class="status ${c}">${esc(s)}</span>`}
 function code4(){return String(Math.floor(1000+Math.random()*9000))}
 function bidTitle(id){const b=cache.bids.find(x=>x.id===id);return b?b.title:'삭제된 공고'}
@@ -118,6 +129,7 @@ document.getElementById('bidForm').onsubmit=async e=>{
     await addItem('bids',o);
     e.target.reset();
     const a=document.getElementById('bidAlert');a.style.display='block';setTimeout(()=>a.style.display='none',2500);
+    flashDone(e.target,'등록 완료 ✓');
   }catch(err){alert('저장 실패: '+(err.message||err))}
 };
 // 일일 공사상황 업로드
@@ -129,6 +141,7 @@ document.getElementById('dailyForm').onsubmit=async e=>{
     await addItem('daily',o);
     e.target.reset();
     const a=document.getElementById('dailyAlert');a.style.display='block';setTimeout(()=>a.style.display='none',2500);
+    flashDone(e.target,'저장 완료 ✓');
   }catch(err){alert('저장 실패: '+(err.message||err))}
 };
 
