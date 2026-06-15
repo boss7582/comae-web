@@ -140,12 +140,18 @@ export async function saveBackup(label) {
   if (error) throw error;
 }
 
-// 저장된 백업 목록(데이터 본문 제외)
+// 저장된 백업 목록(데이터 본문 제외, 최신순)
 export async function listBackups() {
   const { data, error } = await sb.from("backups")
     .select("id, created_at, label").order("created_at", { ascending: false });
   if (error) throw error;
   return data || [];
+}
+
+// 백업 1건 삭제
+export async function deleteBackup(id) {
+  const { error } = await sb.from("backups").delete().eq("id", id);
+  if (error) throw error;
 }
 
 // 백업으로 복원 — 현재 데이터를 전부 지우고 백업 내용으로 덮어씀

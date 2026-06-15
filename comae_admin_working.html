@@ -28,7 +28,7 @@
 <button onclick="exportData()">JSON 백업 복사</button><button class="danger" onclick="clearData()">전체 데이터 삭제</button>
 <textarea id="backupText" style="margin-top:12px;min-height:180px;width:100%" placeholder="백업 데이터가 여기에 표시됩니다."></textarea></section>
 </main><script type="module">
-import { listen, addItem, updateItem, removeItem as dbRemove, uploadPhotos, login, logout, onAuth, myAdminRole, saveBackup, listBackups, restoreBackup, formObj } from './data.js';
+import { listen, addItem, updateItem, removeItem as dbRemove, uploadPhotos, login, logout, onAuth, myAdminRole, saveBackup, listBackups, restoreBackup, deleteBackup, formObj } from './data.js';
 
 // 컬렉션별 실시간 캐시
 const cache={reservations:[],partners:[],bids:[],proposals:[],daily:[],reports:[]};
@@ -239,8 +239,17 @@ window.refreshBackups=refreshBackups;
 window.saveBackupNow=async()=>{
   const d=new Date(),p=n=>String(n).padStart(2,'0');
   const label=`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
-  try{ await saveBackup(label); alert('백업 저장 완료: '+label); refreshBackups(); }
-  catch(e){ alert('백업 실패: '+(e.message||e)); }
+  try{
+    const list=await listBackups(); // 최신순
+    if(list.length>=20){
+      const old=list.slice(19); // 추가 후 20개가 되도록 오래된 것부터
+      if(!confirm(`백업이 ${list.length}개입니다. 가장 오래된 백업 ${old.length}개를 삭제하고 저장할까요?`)) return;
+      for(const b of old){ await deleteBackup(b.id); }
+    }
+    await saveBackup(label);
+    alert('백업 저장 완료: '+label);
+    refreshBackups();
+  }catch(e){ alert('백업 실패: '+(e.message||e)); }
 };
 window.restoreBackupNow=async()=>{
   const sel=document.getElementById('backupList'); const id=sel&&sel.value;
