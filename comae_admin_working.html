@@ -5,7 +5,7 @@
 @media(max-width:1000px){body{display:block}aside{position:static;width:100%;height:auto}main{margin-left:0;width:100%;padding:16px}.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.top{flex-wrap:wrap;gap:10px}input,select,textarea{font-size:16px}section,.panel,form{padding:16px}h1{font-size:24px}aside{display:flex;flex-wrap:wrap;gap:4px;align-items:center}aside .logo{width:100%}aside a{margin-bottom:0}}
 </style></head><body>
 <aside><div class="logo">COMAE <span>ADMIN</span></div><br><a href="#dashboard">대시보드</a><a href="#reservations">개인상담 예약</a><a href="#partners">협력업체 승인/고유번호</a><a href="#" onclick="openBidModal();return false">입찰공고 등록</a><a href="#proposals">입찰 제안 검증</a><a href="#bidProposals">입찰공고 현황</a><a href="#dailyCreate">일일 공사상황</a><a href="#reports">점검·감리 리포트</a><a href="#backup" style="display:none">데이터 백업</a></aside>
-<main><div class="top"><div><h1>코매 관리자 페이지</h1><p class="sub">여기는 사장님/직원 페이지입니다.</p></div><button onclick="location.reload()">새로고침</button></div>
+<main><div class="top"><div><h1>코매 관리자 페이지</h1><p class="sub">여기는 <b id="roleLabel">사장님/직원 페이지</b>입니다.</p></div><button onclick="location.reload()">새로고침</button></div>
 <section id="dashboard"><h2>대시보드</h2><div class="cards" id="dash"></div></section>
 <section id="reservations"><h2>개인상담 예약관리</h2><p class="desc">고객용 홈페이지에서 신청한 상담예약 목록입니다.</p><table><thead><tr><th>신청자</th><th>연락처</th><th>희망일</th><th>시간</th><th>방식</th><th>유형</th><th>상태</th><th>관리</th></tr></thead><tbody id="reservationRows"></tbody></table></section>
 <section id="partners"><h2>현장소장·거래처·협력업체 신청승인</h2><p class="desc">승인 시 4자리 고유번호를 자동발급합니다.</p><table><thead><tr><th>구분</th><th>업체/성명</th><th>연락처</th><th>지역</th><th>공종</th><th>고유번호</th><th>상태</th><th>처리</th></tr></thead><tbody id="partnerRows"></tbody></table></section>
@@ -254,6 +254,11 @@ function applyRole(role){
   const link=document.querySelector('aside a[href="#backup"]');
   if(sec) sec.style.display = isBoss?'':'none';
   if(link) link.style.display = isBoss?'':'none';
+  const lbl=document.getElementById('roleLabel');
+  if(lbl){
+    lbl.textContent = isBoss ? '사장님 페이지' : '직원 페이지';
+    lbl.style.color = isBoss ? '#d92d20' : '#067647';
+  }
   if(isBoss) refreshBackups();
 }
 
