@@ -154,6 +154,13 @@ export async function deleteBackup(id) {
   if (error) throw error;
 }
 
+// 백업 1건의 전체 내용(다운로드용)
+export async function getBackup(id) {
+  const { data, error } = await sb.from("backups").select("label, created_at, data").eq("id", id).single();
+  if (error) throw error;
+  return data;
+}
+
 // 백업으로 복원 — 현재 데이터를 전부 지우고 백업 내용으로 덮어씀
 export async function restoreBackup(id) {
   const { data: row, error } = await sb.from("backups").select("data").eq("id", id).single();
