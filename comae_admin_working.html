@@ -238,8 +238,9 @@ async function refreshBackups(){
 }
 window.refreshBackups=refreshBackups;
 window.saveBackupNow=async()=>{
-  const label=prompt('백업 이름(선택, 비워도 됩니다):')||'';
-  try{ await saveBackup(label); alert('현재 데이터를 DB에 백업했습니다.'); refreshBackups(); }
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  const label=`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  try{ await saveBackup(label); alert('백업 저장 완료: '+label); refreshBackups(); }
   catch(e){ alert('백업 실패: '+(e.message||e)); }
 };
 window.restoreBackupNow=async()=>{
