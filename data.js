@@ -71,7 +71,7 @@ async function compressImage(file, maxDim = 1280, quality = 0.7) {
 
 // ── 사진 업로드 (Storage: photos 버킷) ──────────────────────
 export async function uploadPhotos(folder, fileInput) {
-  const files = [...(fileInput?.files || [])].slice(0, 8);
+  const files = [...(fileInput?.files || [])].slice(0, 30);
   const urls = [];
   for (const f of files) {
     const blob = await compressImage(f);
@@ -122,6 +122,30 @@ export async function myAdminRole() {
   if (!user) return null;
   const { data } = await sb.from("admins").select("role").eq("id", user.id).maybeSingle();
   return data ? (data.role || "staff") : null;
+}
+
+// ── 직원 계정 관리 (사장 전용 — 서버에서 is_boss() 검증) ────────
+export async function listStaff() {
+  const { data, error } = await sb.rpc("admin_list_staff");
+  if (error) throw error;
+  return data || [];
+}
+export async function createStaff(email, password) {
+  const { data, error } = await sb.rpc("admin_create_staff", { p_email: email, p_password: password });
+  if (error) throw error;
+  return data;
+}
+export async function setStaffPassword(id, password) {
+  const { error } = await sb.rpc("admin_set_staff_password", { p_id: id, p_password: password });
+  if (error) throw error;
+}
+export async function setStaffEmail(id, email) {
+  const { error } = await sb.rpc("admin_set_staff_email", { p_id: id, p_email: email });
+  if (error) throw error;
+}
+export async function deleteStaff(id) {
+  const { error } = await sb.rpc("admin_delete_staff", { p_id: id });
+  if (error) throw error;
 }
 
 // ── 백업 / 복원 ──────────────────────────────────────────────
