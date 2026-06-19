@@ -140,6 +140,8 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='ArrowRight') showGallery(galleryIdx+1);
 });
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+// 등록일시 → "2026.06.19" 형식
+function fmtDate(v){if(!v)return'';const d=new Date(v);if(isNaN(d))return'';const p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())}`}
 
 // 연락처 입력 시 010-xxxx-xxxx 자동 하이픈 (형식 미달이면 pattern 으로 제출 차단)
 document.querySelectorAll('input[name="phone"]').forEach(inp=>{
@@ -194,7 +196,8 @@ function renderBidList(){
       ? `<p style="white-space:pre-wrap">${esc(b.memo)}</p>`
       : '<p style="color:#94a3b8">상세 공사내용 미입력</p>';
     const photoNote=photos.length?`<small style="color:#64748b">현장사진 ${photos.length}장 · 사진을 누르면 크게 볼 수 있습니다</small>`:'';
-    return `<article class="notice"><div class="body"><span class="badge">${esc(b.status)}</span><h3>${esc(b.title)}</h3>${desc}${thumbs}${photoNote}<div class="chips"><span class="chip">${esc(b.categories)}</span><span class="chip">개인정보 비공개</span></div></div><div class="price"><small>고객 예산</small><strong>${esc(b.budget)||'협의'}</strong><a class="btn" href="#bidApply" onclick="applyBid('${esc(b.id)}')">입찰참여</a></div></article>`;
+    const postedNote=b.created_at?`<small style="color:#94a3b8;margin-left:8px">등록일 ${fmtDate(b.created_at)}</small>`:'';
+    return `<article class="notice"><div class="body"><span class="badge">${esc(b.status)}</span>${postedNote}<h3>${esc(b.title)}</h3>${desc}${thumbs}${photoNote}<div class="chips"><span class="chip">${esc(b.categories)}</span><span class="chip">개인정보 비공개</span></div></div><div class="price"><small>고객 예산</small><strong>${esc(b.budget)||'협의'}</strong><a class="btn" href="#bidApply" onclick="applyBid('${esc(b.id)}')">입찰참여</a></div></article>`;
   };
   const pages=[]; for(let i=0;i<shown.length;i+=5) pages.push(shown.slice(i,i+5));
   box.className='bidPages';
