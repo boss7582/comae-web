@@ -334,7 +334,8 @@ document.getElementById('reportForm').onsubmit=async e=>{
   var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   var isIOS = /iphone|ipad|ipod/i.test(ua);
   // 카카오톡·네이버·인스타·페북 등 "앱 안의 브라우저"(인앱) 감지 — 여기선 설치 팝업이 막혀 있음
-  var isInApp = /KAKAOTALK|NAVER\(inapp|Instagram|FBAN|FBAV|FB_IAB|Line\/|DaumApps|; wv\)/i.test(ua);
+  var isNaver = /NAVER/i.test(ua);
+  var isInApp = isNaver || /KAKAOTALK|Instagram|FBAN|FBAV|FB_IAB|Line\/|DaumApps|; wv\)/i.test(ua);
 
   // 이미 설치되어 standalone 으로 실행 중이면 버튼 숨김
   if(isStandalone && btn){ btn.style.display = 'none'; }
@@ -366,8 +367,15 @@ document.getElementById('reportForm').onsubmit=async e=>{
 
   function showGuide(){
     var html;
-    if(isInApp){
-      html = '<p>지금은 <b>네이버·카톡 등 앱 안의 브라우저</b>라서 설치가 막혀 있어요.<br>아래 버튼으로 <b>크롬을 열면</b> 바로 설치됩니다.</p>'
+    if(isNaver){
+      html = '<p><b>네이버 앱</b>에서는 아래 순서로 홈 화면에 바로가기를 추가할 수 있어요.</p>'
+           + '<div class="step"><span class="n">1</span>화면 <b>아래쪽 메뉴 버튼(≡)</b> 누르기</div>'
+           + '<div class="step"><span class="n">2</span><b>‘홈 화면에 추가’</b> 선택</div>'
+           + '<div class="step"><span class="n">3</span><b>‘추가’</b> 누르면 완료</div>'
+           + '<p style="margin:14px 0 6px;font-size:13px;color:#94a3b8">또는, 앱처럼 전체화면으로 쓰고 싶으면 크롬으로 여세요.</p>'
+           + '<button type="button" onclick="window.__comaeOpenInChrome()" style="width:100%;background:#eef3f8;color:#123a66;border:1px solid #d6e0ee;border-radius:12px;padding:12px;font-weight:900;cursor:pointer">크롬으로 열기</button>';
+    } else if(isInApp){
+      html = '<p>지금은 <b>카톡 등 앱 안의 브라우저</b>라서 설치가 막혀 있어요.<br>아래 버튼으로 <b>크롬을 열면</b> 바로 설치됩니다.</p>'
            + '<button type="button" onclick="window.__comaeOpenInChrome()" style="margin:6px 0 2px;width:100%;background:#071a32;color:#fff;border:0;border-radius:12px;padding:14px;font-weight:900;font-size:16px;cursor:pointer">크롬으로 바로 열기</button>'
            + '<button type="button" onclick="window.__comaeCopyUrl(this)" style="margin-top:8px;width:100%;background:#eef3f8;color:#123a66;border:1px solid #d6e0ee;border-radius:12px;padding:11px;font-weight:900;cursor:pointer">잘 안 되면 · 주소 복사하기</button>'
            + '<p style="margin-top:12px;font-size:13px;color:#94a3b8">크롬으로 열린 뒤, 다시 “바탕화면에 바로가기 추가”를 누르면 설치돼요.</p>';
