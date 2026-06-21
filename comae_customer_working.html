@@ -303,6 +303,7 @@ document.getElementById('reportForm').onsubmit=async e=>{
 <!-- ── 홈 화면에 바로가기 추가 (PWA 설치) ───────────────────── -->
 <style>
 .installCta{background:#fff !important;color:#071a32 !important;margin-left:10px;font-family:inherit;font-size:16px;line-height:1.65;vertical-align:top}
+@media(max-width:900px){.installCta{display:block;margin-left:0;margin-top:12px;width:max-content;max-width:100%}}
 #installGuide{position:fixed;inset:0;z-index:70;display:none;background:rgba(7,26,50,.55);
   align-items:flex-end;justify-content:center}
 #installGuide .sheet{background:#fff;width:min(440px,100%);border-radius:18px 18px 0 0;padding:22px 22px 28px;
