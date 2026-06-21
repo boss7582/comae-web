@@ -333,6 +333,8 @@ document.getElementById('reportForm').onsubmit=async e=>{
   var ua = navigator.userAgent;
   var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   var isIOS = /iphone|ipad|ipod/i.test(ua);
+  // 카카오톡·네이버·인스타·페북 등 "앱 안의 브라우저"(인앱) 감지 — 여기선 설치 팝업이 막혀 있음
+  var isInApp = /KAKAOTALK|NAVER\(inapp|Instagram|FBAN|FBAV|FB_IAB|Line\/|DaumApps|; wv\)/i.test(ua);
 
   // 이미 설치되어 standalone 으로 실행 중이면 버튼 숨김
   if(isStandalone && btn){ btn.style.display = 'none'; }
@@ -341,15 +343,29 @@ document.getElementById('reportForm').onsubmit=async e=>{
   window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; });
   window.addEventListener('appinstalled', function(){ if(btn) btn.style.display = 'none'; });
 
+  function copyUrl(el){
+    var url = location.href;
+    function done(){ el.textContent = '주소 복사됨 ✓'; }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done, function(){}); }
+    else { var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); try{document.execCommand('copy');done();}catch(e){} document.body.removeChild(t); }
+  }
+  window.__comaeCopyUrl = copyUrl;
+
   function showGuide(){
     var html;
-    if(isIOS){
+    if(isInApp){
+      html = '<p>지금은 <b>카톡·네이버 등 앱 안의 브라우저</b>라서 설치가 막혀 있어요.<br><b>크롬(Chrome)으로 열면</b> 바로 설치됩니다.</p>'
+           + '<div class="step"><span class="n">1</span>화면 <b>오른쪽 위 ⋮ (또는 ···)</b> 누르기</div>'
+           + '<div class="step"><span class="n">2</span><b>‘다른 브라우저로 열기’ / ‘Chrome으로 열기’</b> 선택</div>'
+           + '<div class="step"><span class="n">3</span>크롬에서 다시 <b>‘바탕화면에 바로가기 추가’</b> 누르기</div>'
+           + '<button type="button" onclick="window.__comaeCopyUrl(this)" style="margin-top:8px;width:100%;background:#eef3f8;color:#123a66;border:1px solid #d6e0ee;border-radius:12px;padding:11px;font-weight:900;cursor:pointer">주소 복사해서 크롬에 붙여넣기</button>';
+    } else if(isIOS){
       html = '<p>아이폰(Safari)에서는 아래 순서로 추가하세요.</p>'
            + '<div class="step"><span class="n">1</span>화면 아래 <b>공유 버튼&nbsp;(￪)</b> 누르기</div>'
            + '<div class="step"><span class="n">2</span><b>‘홈 화면에 추가’</b> 선택</div>'
            + '<div class="step"><span class="n">3</span>오른쪽 위 <b>‘추가’</b> 누르면 완료</div>';
     } else {
-      html = '<p>브라우저 메뉴에서 아래 순서로 추가하세요.</p>'
+      html = '<p>잠깐 기다린 뒤 버튼을 다시 누르면 설치창이 떠요. 안 뜨면 아래 순서로 추가하세요.</p>'
            + '<div class="step"><span class="n">1</span>오른쪽 위 <b>⋮ 메뉴</b> 누르기</div>'
            + '<div class="step"><span class="n">2</span><b>‘앱 설치’</b> 또는 <b>‘홈 화면에 추가’</b> 선택</div>'
            + '<div class="step"><span class="n">3</span><b>‘설치 / 추가’</b> 누르면 완료</div>';
