@@ -24,7 +24,7 @@
 </style></head><body>
 <header><div class="wrap"><div class="logo">COST MATCHING <span>COMAE</span></div><nav><a href="#about">회사소개</a><a href="#service">주요서비스</a><a href="#process">진행절차</a><a href="#reservation">상담예약</a><a href="#bids">입찰공고</a><a href="#bidLookup">입찰조회</a><a href="#partner">협력업체등록</a><a href="#daily">공사진행</a><a href="#reports">점검·감리</a></nav></div></header>
 <section style="padding:0;background:#000"><video id="introVideo" src="video.mp4" autoplay muted loop playsinline controls style="width:100%;display:block"></video></section>
-<section class="hero"><div class="wrap"><h1>비용은 투명하게,<br>공사는 안전하게.</h1><p>코매는 고객 현장사진과 상세 공사내용을 기준으로 협력업체 입찰, 현장소장 관리, 일일 공사진행 사진 업로드, 집점검·시공점검 감리리포트까지 통합 운영하는 인테리어 관리 플랫폼입니다.</p><a class="btn" href="#reservation">개인상담 예약신청</a></div></section>
+<section class="hero"><div class="wrap"><h1>비용은 투명하게,<br>공사는 안전하게.</h1><p>코매는 고객 현장사진과 상세 공사내용을 기준으로 협력업체 입찰, 현장소장 관리, 일일 공사진행 사진 업로드, 집점검·시공점검 감리리포트까지 통합 운영하는 인테리어 관리 플랫폼입니다.</p><a class="btn" href="#reservation">개인상담 예약신청</a><button class="btn installCta" id="installBtn" type="button">바탕화면에 바로가기 추가</button></div></section>
 <section id="about"><div class="wrap"><h2>회사소개</h2><p class="sub">코스트 매칭 인테리어시스템, 코매는 고객이 인테리어 공사를 더 안전하고 투명하게 진행할 수 있도록 돕는 운영·감리 중심 플랫폼입니다.</p><div class="grid2"><div class="box"><h3>단순 시공회사가 아닙니다</h3><p>고객, 현장소장, 시공업체, 자재업체를 연결하고 공정·일정·감리·문제해결을 관리합니다.</p></div><div class="box"><h3>고객 보호 중심 운영</h3><p>현장정보, 협력업체 입찰, 일일 공사상황 기록, 감리리포트를 통해 고객이 진행상황을 확인할 수 있게 합니다.</p></div></div></div></section>
 <section id="service" class="dark"><div class="wrap"><h2>주요서비스</h2><p class="sub">상담부터 입찰, 공사진행, 점검·감리까지 한 번에 관리합니다.</p><div class="grid"><div class="card"><span class="badge">01</span><h3>반셀프 인테리어 운영·감리</h3><p>고객과 공정별 업체를 연결하고 본사가 일정·현장·품질을 관리합니다.</p></div><div class="card"><span class="badge">02</span><h3>현장별 입찰공고</h3><p>현장사진, 공사범위, 예산, 일정 기준으로 협력업체 입찰을 받습니다.</p></div><div class="card"><span class="badge">03</span><h3>협력업체 고유번호 입찰</h3><p>승인된 업체만 4자리 고유번호로 입찰합니다.</p></div><div class="card"><span class="badge">04</span><h3>일일 공사진행 공개</h3><p>각 현장의 현재 공사상황과 사진을 매일 업로드합니다.</p></div><div class="card"><span class="badge">05</span><h3>집점검 리포트</h3><p>입주 전·거주 중 하자와 생활불편사항을 점검합니다.</p></div><div class="card"><span class="badge">06</span><h3>공사시공점검 감리리포트</h3><p>공정별 시공상태, 보완사항, 재점검 결과를 관리합니다.</p></div></div></div></section>
 <section id="process"><div class="wrap"><h2>진행절차</h2><p class="sub">개인상담예약 후 현장정보를 정리하고, 입찰과 감리관리까지 단계적으로 진행합니다.</p><div class="grid"><div class="card"><span class="badge">STEP 1</span><h3>개인상담 예약</h3><p>전화, 방문, 카카오톡, 현장방문 상담 중 선택합니다.</p></div><div class="card"><span class="badge">STEP 2</span><h3>현장사진·내용 접수</h3><p>공사범위, 예산, 일정, 현장사진을 접수합니다.</p></div><div class="card"><span class="badge">STEP 3</span><h3>입찰공고 등록</h3><p>개인정보를 제외한 현장정보로 입찰공고를 등록합니다.</p></div></div></div></section>
@@ -302,29 +302,22 @@ document.getElementById('reportForm').onsubmit=async e=>{
 
 <!-- ── 홈 화면에 바로가기 추가 (PWA 설치) ───────────────────── -->
 <style>
-#installFab{position:fixed;right:16px;bottom:16px;z-index:60;display:none;align-items:center;gap:8px;
-  background:#d8aa4c;color:#071a32;border:0;border-radius:999px;padding:13px 18px;font-weight:900;font-size:14px;
-  box-shadow:0 8px 24px rgba(7,26,50,.35);cursor:pointer}
-#installFab .ic{font-size:18px;line-height:1}
-#iosGuide{position:fixed;inset:0;z-index:70;display:none;background:rgba(7,26,50,.55);
+.installCta{background:#fff !important;color:#071a32 !important;margin-left:10px}
+#installGuide{position:fixed;inset:0;z-index:70;display:none;background:rgba(7,26,50,.55);
   align-items:flex-end;justify-content:center}
-#iosGuide .sheet{background:#fff;width:min(440px,100%);border-radius:18px 18px 0 0;padding:22px 22px 28px;
+#installGuide .sheet{background:#fff;width:min(440px,100%);border-radius:18px 18px 0 0;padding:22px 22px 28px;
   box-shadow:0 -8px 30px rgba(0,0,0,.25)}
-#iosGuide h4{font-size:18px;margin-bottom:6px;color:#14243d}
-#iosGuide p{font-size:14px;color:#475569;margin:10px 0;line-height:1.6}
-#iosGuide .step{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:15px;color:#14243d;font-weight:700}
-#iosGuide .step .n{flex:0 0 26px;height:26px;border-radius:50%;background:#071a32;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px}
-#iosGuide .close{margin-top:16px;width:100%;background:#071a32;color:#fff;border:0;border-radius:12px;padding:13px;font-weight:900;cursor:pointer}
+#installGuide h4{font-size:18px;margin-bottom:6px;color:#14243d}
+#installGuide p{font-size:14px;color:#475569;margin:10px 0;line-height:1.6}
+#installGuide .step{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:15px;color:#14243d;font-weight:700}
+#installGuide .step .n{flex:0 0 26px;height:26px;border-radius:50%;background:#071a32;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px}
+#installGuide .close{margin-top:16px;width:100%;background:#071a32;color:#fff;border:0;border-radius:12px;padding:13px;font-weight:900;cursor:pointer}
 </style>
-<button id="installFab"><span>바탕화면에 바로가기 추가</span></button>
-<div id="iosGuide">
+<div id="installGuide">
   <div class="sheet">
     <h4>홈 화면에 추가하기</h4>
-    <p>아이폰(Safari)에서는 아래 순서로 바탕화면에 아이콘을 만들 수 있어요.</p>
-    <div class="step"><span class="n">1</span>화면 아래쪽 <b>공유 버튼&nbsp;(￪)</b> 누르기</div>
-    <div class="step"><span class="n">2</span>메뉴에서 <b>‘홈 화면에 추가’</b> 선택</div>
-    <div class="step"><span class="n">3</span>오른쪽 위 <b>‘추가’</b> 누르면 완료</div>
-    <button class="close" onclick="document.getElementById('iosGuide').style.display='none'">닫기</button>
+    <div id="installSteps"></div>
+    <button class="close" onclick="document.getElementById('installGuide').style.display='none'">닫기</button>
   </div>
 </div>
 <script>
@@ -333,36 +326,49 @@ document.getElementById('reportForm').onsubmit=async e=>{
   if('serviceWorker' in navigator && location.protocol.startsWith('http')){
     navigator.serviceWorker.register('sw.js').catch(function(){});
   }
-  var fab = document.getElementById('installFab');
-  var iosGuide = document.getElementById('iosGuide');
+  var btn   = document.getElementById('installBtn');
+  var guide = document.getElementById('installGuide');
+  var steps = document.getElementById('installSteps');
   var deferred = null;
+  var ua = navigator.userAgent;
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  var isIOS = /iphone|ipad|ipod/i.test(ua);
 
   // 이미 설치되어 standalone 으로 실행 중이면 버튼 숨김
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isStandalone && btn){ btn.style.display = 'none'; }
 
-  // 안드로이드/크롬: 설치 가능해지면 이벤트가 옴 → 버튼 표시 후 클릭 시 설치 팝업
-  window.addEventListener('beforeinstallprompt', function(e){
-    e.preventDefault();
-    deferred = e;
-    if(!isStandalone) fab.style.display = 'flex';
-  });
+  // 안드로이드/크롬: 설치 가능해지면 이벤트가 옴 → 보관해 뒀다 클릭 시 팝업
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; });
+  window.addEventListener('appinstalled', function(){ if(btn) btn.style.display = 'none'; });
 
-  // 아이폰: beforeinstallprompt 가 없으므로, 미설치 상태면 안내 버튼 표시
-  if(isIOS && !isStandalone){ fab.style.display = 'flex'; }
-
-  fab.addEventListener('click', function(){
-    if(deferred){                       // 안드로이드 등 — 실제 설치 팝업
-      deferred.prompt();
-      deferred.userChoice.finally(function(){ deferred = null; fab.style.display = 'none'; });
-    } else if(isIOS){                    // 아이폰 — 수동 추가 안내
-      iosGuide.style.display = 'flex';
+  function showGuide(){
+    var html;
+    if(isIOS){
+      html = '<p>아이폰(Safari)에서는 아래 순서로 추가하세요.</p>'
+           + '<div class="step"><span class="n">1</span>화면 아래 <b>공유 버튼&nbsp;(￪)</b> 누르기</div>'
+           + '<div class="step"><span class="n">2</span><b>‘홈 화면에 추가’</b> 선택</div>'
+           + '<div class="step"><span class="n">3</span>오른쪽 위 <b>‘추가’</b> 누르면 완료</div>';
+    } else {
+      html = '<p>브라우저 메뉴에서 아래 순서로 추가하세요.</p>'
+           + '<div class="step"><span class="n">1</span>오른쪽 위 <b>⋮ 메뉴</b> 누르기</div>'
+           + '<div class="step"><span class="n">2</span><b>‘앱 설치’</b> 또는 <b>‘홈 화면에 추가’</b> 선택</div>'
+           + '<div class="step"><span class="n">3</span><b>‘설치 / 추가’</b> 누르면 완료</div>';
     }
-  });
+    steps.innerHTML = html;
+    guide.style.display = 'flex';
+  }
 
-  // 설치가 끝나면 버튼 숨김
-  window.addEventListener('appinstalled', function(){ fab.style.display = 'none'; });
-  iosGuide.addEventListener('click', function(e){ if(e.target === iosGuide) iosGuide.style.display='none'; });
+  if(btn){
+    btn.addEventListener('click', function(){
+      if(deferred){                       // 설치 팝업이 가능한 경우 — 바로 설치
+        deferred.prompt();
+        deferred.userChoice.finally(function(){ deferred = null; });
+      } else {                            // 그 외(아이폰/이벤트 미발생) — 기기별 안내
+        showGuide();
+      }
+    });
+  }
+  guide.addEventListener('click', function(e){ if(e.target === guide) guide.style.display='none'; });
 })();
 </script>
 </body></html>
