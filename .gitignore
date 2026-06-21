@@ -10,3 +10,5 @@ supabase/.temp/
 SETUP.md
 구현계획.md
 supabase-schema.sql
+solapi-alimtalk.sql
+SOLAPI-알림톡-설정.md

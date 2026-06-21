@@ -1,0 +1,16 @@
+{
+  "name": "코스트매칭 인테리어시스템 COMAE",
+  "short_name": "코매 COMAE",
+  "description": "대구 반셀프 인테리어 운영·감리, 협력업체 입찰, 집점검·시공감리 플랫폼",
+  "start_url": "comae_customer_working.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#071a32",
+  "theme_color": "#071a32",
+  "lang": "ko",
+  "icons": [
+    { "src": "comae-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "comae-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "comae-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
